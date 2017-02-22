@@ -4,6 +4,7 @@
 #include "XSUB.h"
 
 #include "ppport.h"
+
 #include "jieba.h"
 
 #include <stdio.h>
@@ -13,8 +14,7 @@
 
 
 
-
-void CutDemo(char* sentence) {
+AV* CutDemo(char* sentence) {
   printf("CutForSearchDemo:\n");
 
   const char* DICT_PATH = "/home/hwu/dev/cjieba/dict/jieba.dict.utf8";
@@ -30,15 +30,15 @@ void CutDemo(char* sentence) {
   CJiebaWord *x;
   int offset = 0;
   // token [word, len]
+  dTHX; // fetch context, what is the fuck?
+  AV* results;
   for (x = words; x->word; x++) {
-        printf("%d",  (int) x->len);
 		printf("%.*s/", (int) x->len, x->word);
-        offset += x->len;
+     av_push(results, newSVnv(x->len));
 	}
-	printf("\n");
-   
+    printf("\n");
    FreeWords(words);
-   //return list_of_tokens;
+   return(results);
 }
 
 
@@ -50,7 +50,6 @@ hello()
         printf("Hello, world!\n");
 
 
-
-void
+AV* 
 CutDemo(sentence)
     char* sentence
