@@ -30,17 +30,26 @@ AV* CutDemo(char* sentence) {
   CJiebaWord *x;
   int offset = 0;
   // token [word, len]
-  dTHX; // fetch context, what is the fuck?
-  AV* results;
+  //AV* results;
+  //results = newAv();
   for (x = words; x->word; x++) {
 		printf("%.*s/", (int) x->len, x->word);
-     av_push(results, newSVnv(x->len));
+   //     av_push(results, newSViv(x->len));
 	}
     printf("\n");
    FreeWords(words);
-   return(results);
+   FreeJieba(handle);
+   //return(results);
 }
 
+AV *do_nothing() {
+    dTHX; // why this?
+    AV *r = newAV();
+    int index;
+    av_push( r, newSVpv("test", 4));
+    av_push( r, newSVpv("test_2", 5));
+    return r;
+}
 
 MODULE = Jieba		PACKAGE = Jieba		
 
@@ -53,3 +62,7 @@ hello()
 AV* 
 CutDemo(sentence)
     char* sentence
+
+
+AV *
+do_nothing ()
