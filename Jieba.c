@@ -13,7 +13,7 @@
 #include "XSUB.h"
 
 #include "ppport.h"
-#include "deps/jieba.h"
+#include "jieba.h"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -24,30 +24,34 @@
 
 
 void CutDemo(char* sentence) {
-  printf("CutDemo:\n");
-  static const char* DICT_PATH = "/home/hwu/dev/cjieba/dict/jieba.dict.utf8";
-  static const char* HMM_PATH = "/home/hwu/dev/cjieba/dict/hmm_model.utf8";
-  static const char* USER_DICT = "/home/hwu/dev/cjieba/dict/user.dict.utf8";
-  // init will take a few seconds to load dicts.
-  Jieba handle = NewJieba(DICT_PATH, HMM_PATH, USER_DICT); 
+  printf("CutForSearchDemo:\n");
 
-  const char* s = sentence; 
-  size_t len = strlen(s);
-  CJiebaWord* words = Cut(handle, s, len); 
-  CJiebaWord* x;
-  for (x = words; x && x->word; x++) {
-    printf("%zu:", x->len);
-    printf("%zu:", x->len);
-    //printf("%zu:", x->len);
-    //printf("%s\n", x->word);
-    printf("%*.*s\n", x->len, x->len, x->word);
-  }
-  FreeWords(words);
-  FreeJieba(handle);
+  const char* DICT_PATH = "/home/hwu/dev/cjieba/dict/jieba.dict.utf8";
+  const char* HMM_PATH = "/home/hwu/dev/cjieba/dict/hmm_model.utf8";
+  const char *IDF_PATH = "/home/hwu/dev/cjieba/dict/idf.utf8";
+  const char *STOP_WORDS_PATH = "/home/hwu/dev/cjieba/dict/stop_words.utf8";
+  const char *USER_DICT = "/home/hwu/dev/cjieba/dict/user.dict.utf8";
+
+  // init will take a few seconds to load dicts.
+
+  Jieba handle = NewJieba(DICT_PATH, HMM_PATH, USER_DICT, IDF_PATH, STOP_WORDS_PATH);
+  CJiebaWord *words = CutForSearch(handle, sentence, strlen(sentence));
+  CJiebaWord *x;
+  int offset = 0;
+  // token [word, len]
+  for (x = words; x->word; x++) {
+        printf("%d",  (int) x->len);
+		printf("%.*s/", (int) x->len, x->word);
+        offset += x->len;
+	}
+	printf("\n");
+   
+   FreeWords(words);
+   //return list_of_tokens;
 }
 
 
-#line 51 "Jieba.c"
+#line 55 "Jieba.c"
 #ifndef PERL_UNUSED_VAR
 #  define PERL_UNUSED_VAR(var) if (0) var = var
 #endif
@@ -191,7 +195,7 @@ S_croak_xs_usage(const CV *const cv, const char *const params)
 #  define newXS_deffile(a,b) Perl_newXS_deffile(aTHX_ a,b)
 #endif
 
-#line 195 "Jieba.c"
+#line 199 "Jieba.c"
 
 XS_EUPXS(XS_Jieba_hello); /* prototype to pass -Wmissing-prototypes */
 XS_EUPXS(XS_Jieba_hello)
@@ -200,9 +204,9 @@ XS_EUPXS(XS_Jieba_hello)
     if (items != 0)
        croak_xs_usage(cv,  "");
     {
-#line 46 "Jieba.xs"
+#line 50 "Jieba.xs"
         printf("Hello, world!\n");
-#line 206 "Jieba.c"
+#line 210 "Jieba.c"
     }
     XSRETURN_EMPTY;
 }

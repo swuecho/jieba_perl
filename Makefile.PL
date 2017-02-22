@@ -13,7 +13,7 @@ WriteMakefile(
     #http://search.cpan.org/perldoc?Module%3A%3ABuild%3A%3AAPI
     LIBS              => ['-ljieba -lstdc++ -lm'], # e.g., '-lm' #TODO: include libjieba.so from a custom dir
     DEFINE            => '', # e.g., '-DHAVE_SOMETHING'
-    INC               => '-I. -I/usr/include', # e.g., '-I. -I/usr/include/other'
+    INC               => '-I. -I./deps/include -I/usr/include', # e.g., '-I. -I/usr/include/other'
 	# Un-comment this if you add C files to link with later:
     # OBJECT            => '$(O_FILES)', # link all the C files too
 );

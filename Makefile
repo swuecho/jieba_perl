@@ -16,7 +16,7 @@
 #     BUILD_REQUIRES => {  }
 #     CONFIGURE_REQUIRES => {  }
 #     DEFINE => q[]
-#     INC => q[-I. -I/usr/include]
+#     INC => q[-I. -I./deps/include -I/usr/include]
 #     LIBS => [q[-ljieba -lstdc++ -lm]]
 #     LICENSE => q[perl]
 #     NAME => q[Jieba]
@@ -156,7 +156,7 @@ BASEEXT = Jieba
 PARENT_NAME = 
 DLBASE = $(BASEEXT)
 VERSION_FROM = lib/Jieba.pm
-INC = -I. -I/usr/include
+INC = -I. -I./deps/include -I/usr/include
 DEFINE = 
 OBJECT = $(BASEEXT)$(OBJ_EXT)
 LDFROM = $(OBJECT)
@@ -315,7 +315,7 @@ PASTHRU = LIBPERL_A="$(LIBPERL_A)"\
 	OPTIMIZE="$(OPTIMIZE)"\
 	PREFIX="$(PREFIX)"\
 	PASTHRU_DEFINE=' $(PASTHRU_DEFINE)'\
-	PASTHRU_INC='-I. -I/usr/include $(PASTHRU_INC)'
+	PASTHRU_INC='-I. -I./deps/include -I/usr/include $(PASTHRU_INC)'
 
 
 # --- MakeMaker special_targets section:
